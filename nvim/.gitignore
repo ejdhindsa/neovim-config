@@ -1,0 +1,5 @@
+# We DO commit lazy-lock.json (reproducible plugin versions) — do not ignore it.
+*.log
+*.swp
+tags
+.DS_Store
