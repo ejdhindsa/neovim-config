@@ -29,11 +29,13 @@ return {
   { "marko-cerovac/material.nvim", lazy = true },
   { "ribru17/bamboo.nvim", lazy = true },
 
-  -- ── Active colorscheme (placeholder until BlackFox lands) ────────────
+  -- ── Active colorscheme: BlackFox (ported from your Zed theme) ────────
+  -- Lives in colors/blackfox.lua. The alternates above stay installed for
+  -- browsing via <leader>th.
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "tokyonight-night",
+      colorscheme = "blackfox",
     },
   },
 
