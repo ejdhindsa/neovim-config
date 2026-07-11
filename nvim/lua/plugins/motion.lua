@@ -52,6 +52,7 @@ return {
   -- Symbol outline sidebar (like Zed's outline)
   {
     "stevearc/aerial.nvim",
+    branch = "nvim-0.11", -- master targets nvim 0.12+; this branch is the stable-0.11 line
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
     opts = {
       backends = { "lsp", "treesitter", "markdown", "man" },
