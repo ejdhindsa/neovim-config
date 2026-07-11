@@ -15,7 +15,8 @@ return {
   -- fight flash over the `s` key. To try it: set enabled = true here AND set
   -- flash's `s`/`S` keys to false in the spec above. Then leap maps s/S/gs.
   {
-    "ggandor/leap.nvim",
+    url = "https://codeberg.org/andyg/leap.nvim.git",
+    name = "leap.nvim",
     enabled = false,
     keys = {
       { "s", "<Plug>(leap-forward)", mode = { "n", "x", "o" }, desc = "Leap forward" },

@@ -2,7 +2,7 @@
 
 return {
   -- Prefer nvim-autopairs over LazyVim's default mini.pairs
-  { "echasnovski/mini.pairs", enabled = false },
+  { "nvim-mini/mini.pairs", enabled = false },
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
@@ -27,7 +27,7 @@ return {
 
   -- Move lines/selections with Alt-hjkl
   {
-    "echasnovski/mini.move",
+    "nvim-mini/mini.move",
     event = "VeryLazy",
     opts = {
       mappings = {

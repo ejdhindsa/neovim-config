@@ -14,8 +14,8 @@ return {
         hide_during_completion = true,
         keymap = {
           accept = "<M-l>", -- Alt-l accepts the ghost suggestion (insert mode)
-          accept_word = "<M-;>",
-          accept_line = "<M-CR>",
+          accept_word = false, -- (disabled: avoids a duplicate <M-CR>/<M-;> keymap warning)
+          accept_line = false,
           next = "<M-]>",
           prev = "<M-[>",
           dismiss = "<C-]>",

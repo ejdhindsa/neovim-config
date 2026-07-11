@@ -23,7 +23,7 @@ return {
     lazy = false,
     priority = 10000,
     opts = {
-      which_key = { auto_register = true }, -- surface which-key maps in the palette
+      extensions = { which_key = { auto_register = true } }, -- surface which-key maps in the palette
       sort = { frecency = false }, -- no sqlite dependency needed
     },
     keys = {

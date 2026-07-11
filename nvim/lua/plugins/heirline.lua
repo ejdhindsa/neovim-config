@@ -243,13 +243,6 @@ return {
           Ruler,
         },
       })
-
-      -- keep the bar readable if a colorscheme change nukes our bg
-      vim.api.nvim_create_autocmd("ColorScheme", {
-        callback = function()
-          require("heirline.utils").on_colorscheme({})
-        end,
-      })
     end,
   },
 }

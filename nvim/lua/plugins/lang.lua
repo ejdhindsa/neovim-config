@@ -9,7 +9,7 @@ return {
       vim.list_extend(opts.ensure_installed, {
         "bash", "lua", "luadoc", "vim", "vimdoc",
         "javascript", "jsdoc", "typescript", "tsx", "vue",
-        "css", "scss", "html", "json", "jsonc", "yaml", "toml",
+        "css", "scss", "html", "json", "yaml", "toml",
         "dockerfile", "sql", "rust", "cpp", "c",
         "markdown", "markdown_inline", "regex", "gitcommit", "git_rebase", "diff", "printf",
       })

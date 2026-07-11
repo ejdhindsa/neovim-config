@@ -28,7 +28,6 @@ return {
   { "projekt0n/github-nvim-theme", lazy = true },
   { "marko-cerovac/material.nvim", lazy = true },
   { "ribru17/bamboo.nvim", lazy = true },
-  { "rebelot/kanagawa-paper.nvim", lazy = true },
 
   -- ── Active colorscheme (placeholder until BlackFox lands) ────────────
   {

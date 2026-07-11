@@ -32,7 +32,7 @@ return {
   -- Subtle animations (nice on a GPU terminal like WezTerm). Scroll animation
   -- is intentionally OFF — it can feel laggy over WSL/zellij; flip it on if you like.
   {
-    "echasnovski/mini.animate",
+    "nvim-mini/mini.animate",
     event = "VeryLazy",
     opts = function()
       local animate = require("mini.animate")
