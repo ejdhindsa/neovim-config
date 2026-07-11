@@ -58,48 +58,7 @@ return {
     },
   },
 
-  -- ── Start screen (replaces snacks dashboard) ─────────────────────────
-  {
-    "nvimdev/dashboard-nvim",
-    lazy = false,
-    opts = function()
-      local header = {
-        "",
-        "        ▄▄▄▄    ▄▄▄▄▄▄   ▄▄▄▄    ▄▄▄▄  ▄▄  ▄▄ ▄▄▄▄▄▄  ▄▄▄▄  ▄▄  ▄▄",
-        "        █   █   █        █   █  █    █ █ ▄▀  █        █    █  ▀▄▄▀ ",
-        "        █▄▄▄▀   █▄▄▄     █▄▄▄▀  █▄▄▄▄█ █▀▄    █▄▄▄     █    █   ▄▀▀▄ ",
-        "        █   █   █        █   █  █    █ █  ▀▄  █        █    █  █    █",
-        "        █▄▄▄▀   █▄▄▄▄▄   █   █  █    █ █   ▀▄ █        █▄▄▄▄█ █    █",
-        "",
-        "                        ⚜  per aciem ad astra  ⚜",
-        "",
-      }
-
-      return {
-        theme = "doom",
-        hide = { statusline = false },
-        config = {
-          header = header,
-          center = {
-            { action = "Telescope find_files", desc = " Find File", icon = " ", key = "f" },
-            { action = "ene | startinsert", desc = " New File", icon = " ", key = "n" },
-            { action = "Telescope oldfiles", desc = " Recent Files", icon = " ", key = "r" },
-            { action = "Telescope live_grep", desc = " Find Text", icon = " ", key = "g" },
-            { action = "lua require('persistence').load()", desc = " Restore Session", icon = " ", key = "s" },
-            { action = "e $MYVIMRC | cd %:p:h", desc = " Config", icon = " ", key = "c" },
-            { action = "Lazy", desc = " Plugins", icon = "󰒲 ", key = "l" },
-            { action = "qa", desc = " Quit", icon = " ", key = "q" },
-          },
-          footer = function()
-            local stats = require("lazy").stats()
-            local ms = (math.floor(stats.startuptime * 100 + 0.5) / 100)
-            return { "⚡ " .. stats.loaded .. "/" .. stats.count .. " plugins in " .. ms .. "ms" }
-          end,
-        },
-      }
-    end,
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-  },
+  -- Start screen is the Snacks dashboard ("FOR DORN") — configured in snacks.lua.
 
   -- ── Indent guides + current-scope (replaces snacks indent) ───────────
   {
