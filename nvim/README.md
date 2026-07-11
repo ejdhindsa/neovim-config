@@ -150,13 +150,13 @@ keybinds {
 ⚠️ Only add the KDL binds **together with** autolock — otherwise zellij eats
 `Ctrl-hjkl` before nvim sees them. Verify syntax against your zellij version (0.44).
 
-## 6. BlackFox theme (pending)
+## 6. BlackFox theme ✓
 
-The port isn't done yet — hand over the Zed BlackFox theme JSON (from
-`~/.config/zed/themes/*.json` or the extensions dir) and I'll translate its color
-roles into a `lua/blackfox.lua` (a `lush` spec), then switch the active colorscheme
-in `lua/plugins/colorscheme.lua` from `tokyonight-night` to `blackfox`. `lush.nvim`
-is already installed for exactly this.
+Ported from your Zed theme (BlackFox by Matej Cerny) into `colors/blackfox.lua`
+and set active in `lua/plugins/colorscheme.lua`. Faithful to the Zed palette:
+near-black `#1E1F22` base, blue keywords, green italic comments, rose strings,
+teal types, amber/gold functions. Edit any highlight in `colors/blackfox.lua`;
+browse the alternate themes any time with `<leader>th`.
 
 ## 7. Per-tool setup notes
 
