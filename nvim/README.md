@@ -8,7 +8,13 @@ Runs inside WSL (Ubuntu) in a zellij pane. Migrated from Zed + vim-motions.
 
 ---
 
-## 1. Prerequisites (one-time, in WSL)
+## 1. Prerequisites (one-time)
+
+**Automated:** on a new machine, install `git`, `git clone` this repo, then run
+`nvim/bootstrap.sh`. It installs everything below (across macOS / apt / dnf /
+pacman / zypper), downloads a Nerd Font, symlinks the config, and installs the
+plugins. Optional flags: `--with-rust`, `--with-zellij`, `--with-claude`,
+`--no-font`, `--no-bootstrap`. Prefer to do it by hand? The manual steps follow.
 
 ```sh
 # Neovim 0.11.x + unzip (Mason needs unzip for a few servers)
