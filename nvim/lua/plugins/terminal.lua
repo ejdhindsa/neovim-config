@@ -1,9 +1,4 @@
--- Window/pane navigation + scratch terminal. zellij owns your real layout
--- (panes, tabs, session persistence) — nvim just cooperates with it.
-
 return {
-  -- Ctrl-hjkl: move between nvim splits AND across into zellij panes.
-  -- Requires a small zellij-side config too (see README → "zellij integration").
   {
     "swaits/zellij-nav.nvim",
     lazy = false,
@@ -16,9 +11,7 @@ return {
     opts = {},
   },
 
-  -- smart-splits owns RESIZE (Ctrl-arrows) so it never fights zellij-nav for
-  -- Ctrl-hjkl. (smart-splits can't cross into zellij panes anyway — only
-  -- tmux/wezterm/kitty — so zellij-nav does the crossing.)
+  -- resize only. smart-splits can't move into zellij panes, zellij-nav does that
   {
     "mrjones2014/smart-splits.nvim",
     lazy = false,
@@ -31,8 +24,6 @@ return {
     },
   },
 
-  -- toggleterm: quick SCRATCH terminals only (per handoff). zellij keeps
-  -- ownership of your real pane/tab layout. <C-\> toggles a floating shell.
   {
     "akinsho/toggleterm.nvim",
     cmd = { "ToggleTerm", "TermExec" },

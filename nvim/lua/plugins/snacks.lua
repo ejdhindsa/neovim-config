@@ -1,11 +1,3 @@
--- Snacks is LazyVim's QOL swiss-army knife. We keep the good bits, disable the
--- pieces covered by dedicated plugins, and turn the built-in dashboard into a
--- "FOR DORN" / Imperial Fists start screen.
---
--- Still on (LazyVim defaults): lazygit (<leader>gg), scratch buffers, gitbrowse,
--- rename-file, bufdelete, statuscolumn.
-
--- ── FOR DORN block wordmark (built in Lua so the rows always line up) ───────
 local FONT = {
   ["F"] = { "█████", "█    ", "████ ", "█    ", "█    " },
   ["O"] = { "█████", "█   █", "█   █", "█   █", "█████" },
@@ -25,7 +17,6 @@ local function banner(word)
   return table.concat(rows, "\n")
 end
 
--- ── Rotating battle-cry ─────────────────────────────────────────────────────
 local quotes = {
   '"Pain is an illusion of the senses; despair, of the mind." — Rogal Dorn',
   '"Only in death does duty end."',
@@ -37,7 +28,6 @@ local quotes = {
 math.randomseed(os.time())
 local quote = quotes[math.random(#quotes)]
 
--- ── Imperial Fists palette for the dashboard highlight groups ───────────────
 local function dorn_colors()
   local p = { gold = "#e3b23c", gold_br = "#f5cf5b", fg = "#e9e2cf", red = "#c1121f", steel = "#8a8a8a", orange = "#d98c3f" }
   local set = vim.api.nvim_set_hl
@@ -80,10 +70,10 @@ return {
           { section = "startup" },
         },
       }
-      opts.indent = { enabled = false } -- → indent-blankline
-      opts.scroll = { enabled = false } -- smoother over WSL/zellij
+      opts.indent = { enabled = false } -- using indent-blankline
+      opts.scroll = { enabled = false } -- laggy in zellij
       opts.notifier = { enabled = true, timeout = 3000 }
-      opts.input = { enabled = true } -- replaces archived dressing.nvim input
+      opts.input = { enabled = true }
       opts.words = { enabled = true }
       opts.bigfile = { enabled = true }
       opts.quickfile = { enabled = true }

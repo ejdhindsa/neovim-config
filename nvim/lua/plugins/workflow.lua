@@ -1,8 +1,4 @@
--- Workflow: keymap discovery, command palette, project-wide replace, projects.
--- (persistence.nvim for session restore is a LazyVim default: <leader>qs / ql / qd.)
-
 return {
-  -- which-key: label our custom leader groups so the popup reads nicely
   {
     "folke/which-key.nvim",
     opts = {
@@ -17,21 +13,19 @@ return {
     },
   },
 
-  -- Legendary: searchable command/keymap palette (Zed's Cmd-P-for-commands feel)
   {
     "mrjones2014/legendary.nvim",
     lazy = false,
     priority = 10000,
     opts = {
-      extensions = { which_key = { auto_register = true } }, -- surface which-key maps in the palette
-      sort = { frecency = false }, -- no sqlite dependency needed
+      extensions = { which_key = { auto_register = true } },
+      sort = { frecency = false }, -- frecency needs sqlite
     },
     keys = {
       { "<leader>fp", "<cmd>Legendary<cr>", desc = "Command palette (legendary)" },
     },
   },
 
-  -- grug-far: project-wide find & replace UI (Zed's multi-file replace)
   {
     "MagicDuck/grug-far.nvim",
     cmd = "GrugFar",
@@ -48,7 +42,6 @@ return {
     },
   },
 
-  -- project.nvim: auto-detect project roots + a Telescope picker for them
   {
     "ahmedkhalf/project.nvim",
     event = "VeryLazy",

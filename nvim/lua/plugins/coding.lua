@@ -1,10 +1,4 @@
--- Completion + AI ghost text.
--- Completion engine is blink.cmp (LazyVim default: fast, Rust-fuzzy, works with
--- LuaSnip + friendly-snippets, which are already on via LazyVim).
-
 return {
-  -- Copilot ghost-text autocomplete. Per the handoff, autocomplete stays on
-  -- Copilot (rides your existing Copilot subscription — run `:Copilot auth` once).
   {
     "zbirenbaum/copilot.lua",
     opts = {
@@ -13,8 +7,8 @@ return {
         auto_trigger = true,
         hide_during_completion = true,
         keymap = {
-          accept = "<M-l>", -- Alt-l accepts the ghost suggestion (insert mode)
-          accept_word = false, -- (disabled: avoids a duplicate <M-CR>/<M-;> keymap warning)
+          accept = "<M-l>",
+          accept_word = false, -- duplicate keymap warning otherwise
           accept_line = false,
           next = "<M-]>",
           prev = "<M-[>",
@@ -26,7 +20,7 @@ return {
     },
   },
 
-  -- Copilot owns ghost text, so switch blink's own ghost text off (no clash).
+  -- copilot already does ghost text
   {
     "saghen/blink.cmp",
     opts = {

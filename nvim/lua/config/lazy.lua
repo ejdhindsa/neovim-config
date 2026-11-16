@@ -17,41 +17,32 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
   spec = {
-    -- ═══════════════════════════════════════════════════════════════════
-    -- LazyVim core + its sensible defaults (LSP, treesitter, gitsigns, ...)
-    -- We treat this purely as scaffolding and override freely below.
-    -- ═══════════════════════════════════════════════════════════════════
     { "LazyVim/LazyVim", import = "lazyvim.plugins" },
 
-    -- ── LazyVim Extras ─────────────────────────────────────────────────
-    -- Editor / coding
-    { import = "lazyvim.plugins.extras.editor.telescope" }, -- Telescope as picker backend (+ fzf-native)
-    { import = "lazyvim.plugins.extras.coding.mini-surround" }, -- mini.surround
-    { import = "lazyvim.plugins.extras.coding.yanky" }, -- yanky (yank ring + history)
-    { import = "lazyvim.plugins.extras.ai.copilot" }, -- Copilot ghost-text (rides your Copilot sub)
-    { import = "lazyvim.plugins.extras.test.core" }, -- neotest core (adapter added in plugins/testing.lua)
-    { import = "lazyvim.plugins.extras.formatting.prettier" }, -- Prettier via conform
+    { import = "lazyvim.plugins.extras.editor.telescope" },
+    { import = "lazyvim.plugins.extras.coding.mini-surround" },
+    { import = "lazyvim.plugins.extras.coding.yanky" },
+    { import = "lazyvim.plugins.extras.ai.copilot" },
+    { import = "lazyvim.plugins.extras.test.core" },
+    { import = "lazyvim.plugins.extras.formatting.prettier" },
 
-    -- Languages (Vue extra pulls in lang.typescript automatically → vtsls also powers plain JS)
-    { import = "lazyvim.plugins.extras.lang.vue" }, -- vue_ls + vtsls hybrid mode
-    { import = "lazyvim.plugins.extras.lang.json" }, -- jsonls + SchemaStore
-    { import = "lazyvim.plugins.extras.lang.docker" }, -- dockerls + compose + yaml
-    { import = "lazyvim.plugins.extras.lang.markdown" }, -- marksman + markdownlint + render-markdown
-    { import = "lazyvim.plugins.extras.lang.rust" }, -- rustaceanvim + crates.nvim
-    { import = "lazyvim.plugins.extras.lang.clangd" }, -- clangd + clangd_extensions
-    { import = "lazyvim.plugins.extras.lang.sql" }, -- vim-dadbod + dadbod-ui + dadbod-completion
+    -- the vue extra already pulls in lang.typescript
+    { import = "lazyvim.plugins.extras.lang.vue" },
+    { import = "lazyvim.plugins.extras.lang.json" },
+    { import = "lazyvim.plugins.extras.lang.docker" },
+    { import = "lazyvim.plugins.extras.lang.markdown" },
+    { import = "lazyvim.plugins.extras.lang.rust" },
+    { import = "lazyvim.plugins.extras.lang.clangd" },
+    { import = "lazyvim.plugins.extras.lang.sql" },
 
-    -- ── Your own specs (these win over everything above) ───────────────
     { import = "plugins" },
   },
   defaults = {
-    -- Our own plugin specs are loaded eagerly unless they set lazy=true;
-    -- extras/LazyVim manage their own lazy-loading.
     lazy = false,
-    version = false, -- always use latest git (LazyVim recommendation)
+    version = false,
   },
   install = { colorscheme = { "tokyonight", "habamax" } },
-  checker = { enabled = true, notify = false }, -- background update checks, no nag
+  checker = { enabled = true, notify = false },
   performance = {
     rtp = {
       disabled_plugins = {

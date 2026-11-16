@@ -1,13 +1,7 @@
--- Custom statusline built on heirline — themed after the Imperial Fists
--- (near-black armour, chapter gold, hazard red). This is a from-scratch
--- component build, not a preset, so it's fully yours to hack on.
---
--- NOTE: the palette here is hard-coded so the bar looks consistent across
--- every colorscheme. Once BlackFox is ported you may want to wire these to
--- its highlight groups instead — say the word and I'll make it theme-reactive.
+-- imperial fists statusline. colors are hardcoded so it looks the same
+-- whatever colorscheme is active
 
 return {
-  -- We roll our own bar, so turn off LazyVim's lualine.
   { "nvim-lualine/lualine.nvim", enabled = false },
 
   {
@@ -21,7 +15,6 @@ return {
       local conditions = require("heirline.conditions")
       local utils = require("heirline.utils")
 
-      -- ── Imperial Fists palette ─────────────────────────────────────
       local pal = {
         bg = "#12100b",
         bg_alt = "#1c1913",
@@ -56,7 +49,6 @@ return {
         return mode_colors[vim.fn.mode()] or pal.gold
       end
 
-      -- Mode badge (left cap)
       local ViMode = {
         init = function(self)
           self.mode = vim.fn.mode(1)
@@ -88,7 +80,6 @@ return {
         update = { "ModeChanged", "MenuPopup" },
       }
 
-      -- Git branch + diff counts
       local Git = {
         condition = conditions.is_git_repo,
         init = function(self)
@@ -112,7 +103,6 @@ return {
         end, hl = { fg = pal.red, bg = pal.bg_alt } },
       }
 
-      -- Filename + icon + flags
       local FileNameBlock = {
         init = function(self)
           self.filename = vim.api.nvim_buf_get_name(0)
@@ -156,7 +146,6 @@ return {
         utils.insert(FileNameBlock, FileIcon, FileName, FileFlags, { provider = "%<" })
       FileNameBlockFull.hl = { bg = pal.bg }
 
-      -- Diagnostics
       local Diagnostics = {
         condition = conditions.has_diagnostics,
         init = function(self)
@@ -183,7 +172,6 @@ return {
         end, hl = { fg = pal.green } },
       }
 
-      -- Attached LSP servers
       local LSPActive = {
         condition = conditions.lsp_attached,
         update = { "LspAttach", "LspDetach", "BufEnter" },
@@ -202,7 +190,6 @@ return {
         hl = { fg = pal.black, bg = pal.gold, bold = true },
       }
 
-      -- Copilot indicator
       local Copilot = {
         condition = function()
           return package.loaded["copilot"] ~= nil
@@ -218,7 +205,6 @@ return {
         hl = { fg = pal.fg, bg = pal.bg_alt, bold = true },
       }
 
-      -- Line/col + file %
       local Ruler = {
         provider = " %7(%l/%3L%):%2c %P ",
         hl = { fg = pal.black, bg = pal.gold, bold = true },

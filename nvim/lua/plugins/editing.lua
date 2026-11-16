@@ -1,31 +1,24 @@
--- Editing ergonomics.
-
 return {
-  -- Prefer nvim-autopairs over LazyVim's default mini.pairs
   { "nvim-mini/mini.pairs", enabled = false },
   {
     "windwp/nvim-autopairs",
     event = "InsertEnter",
     opts = {
-      check_ts = true, -- treesitter-aware
-      fast_wrap = {}, -- <M-e> to wrap the next object
+      check_ts = true,
+      fast_wrap = {},
     },
   },
 
-  -- Auto close & rename HTML/Vue/JSX tags (essential for SFCs)
   {
     "windwp/nvim-ts-autotag",
     event = { "BufReadPost", "BufNewFile" },
     opts = {},
   },
 
-  -- Repeat plugin actions with `.`
   { "tpope/vim-repeat", event = "VeryLazy" },
 
-  -- Auto-detect indent settings per file
   { "tpope/vim-sleuth", event = { "BufReadPost", "BufNewFile" } },
 
-  -- Move lines/selections with Alt-hjkl
   {
     "nvim-mini/mini.move",
     event = "VeryLazy",
@@ -43,7 +36,6 @@ return {
     },
   },
 
-  -- Smart increment/decrement: numbers, dates, booleans, hex, semver, css units
   {
     "monaqa/dial.nvim",
     keys = {
@@ -61,8 +53,8 @@ return {
           augend.integer.alias.decimal_int,
           augend.integer.alias.hex,
           augend.date.alias["%Y-%m-%d"],
-          augend.constant.alias.bool, -- true <-> false
-          augend.semver.alias.semver, -- 1.2.3
+          augend.constant.alias.bool,
+          augend.semver.alias.semver,
           augend.constant.new({ elements = { "let", "const" } }),
           augend.constant.new({ elements = { "&&", "||" }, word = false }),
           augend.constant.new({ elements = { "px", "rem", "em", "%" }, word = false }),
@@ -71,7 +63,6 @@ return {
     end,
   },
 
-  -- Sub-word motion: w/e/b/ge stop at camelCase and snake_case boundaries
   {
     "chrisgrieser/nvim-spider",
     keys = {

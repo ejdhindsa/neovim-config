@@ -1,7 +1,4 @@
--- Language-specific extras layered on top of the LazyVim lang.* extras.
-
 return {
-  -- Extra Treesitter parsers spanning your whole stack (LazyVim merges these)
   {
     "nvim-treesitter/nvim-treesitter",
     opts = function(_, opts)
@@ -16,7 +13,6 @@ return {
     end,
   },
 
-  -- package.json: latest/outdated versions inline
   {
     "vuki656/package-info.nvim",
     dependencies = { "MunifTanjim/nui.nvim" },
@@ -30,9 +26,7 @@ return {
     },
   },
 
-  -- MySQL client via dadbod-ui (plugins come from the lang.sql extra).
-  -- Add DB connections WITHOUT committing secrets — prefer an env var:
-  --   export DBUI_MYSQL_DEV='mysql://user:pass@127.0.0.1:3306/yourdb'
+  -- connection urls come from env vars, keep credentials out of git
   {
     "kristijanhusak/vim-dadbod-ui",
     dependencies = { "tpope/vim-dadbod" },
@@ -40,15 +34,29 @@ return {
       vim.g.db_ui_use_nerd_fonts = 1
       vim.g.db_ui_save_location = vim.fn.stdpath("data") .. "/db_ui"
       vim.g.db_ui_show_database_icon = 1
-      -- Example — uncomment and rely on the env var so no password lands in git:
-      -- vim.g.dbs = { { name = "dev", url = vim.env.DBUI_MYSQL_DEV or "" } }
+      vim.g.dbs = {
+        { name = "store", url = vim.env.DBUI_STORE or "" },
+        { name = "corp", url = vim.env.DBUI_CORP or "" },
+      }
+
+      -- <leader>S is awkward to hit, so add <leader>s in sql buffers only
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = "sql",
+        callback = function(args)
+          vim.keymap.set({ "n", "v" }, "<leader>s", "<Plug>(DBUI_ExecuteQuery)", {
+            buffer = args.buf,
+            remap = true,
+            silent = true,
+            desc = "DB: execute query (fast)",
+          })
+        end,
+      })
     end,
     keys = {
       { "<leader>Du", "<cmd>DBUIToggle<cr>", desc = "Dadbod UI (SQL)" },
     },
   },
 
-  -- render-markdown look (plugin comes from the lang.markdown extra)
   {
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {

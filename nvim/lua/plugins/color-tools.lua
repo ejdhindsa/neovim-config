@@ -1,8 +1,4 @@
--- Color highlighting (inline swatches) + an interactive color picker.
--- Covers both "colorizer" and "color picker" wants — very handy in Sass/CSS.
-
 return {
-  -- Inline swatches for #hex, rgb(), hsl(), and named colors
   {
     "brenoprata10/nvim-highlight-colors",
     event = { "BufReadPost", "BufNewFile" },
@@ -11,14 +7,13 @@ return {
       virtual_symbol = "󱓻 ",
       virtual_symbol_position = "eol",
       enable_named_colors = true,
-      enable_tailwind = false, -- flip on if you ever add Tailwind
+      enable_tailwind = false,
     },
     keys = {
       { "<leader>uH", "<cmd>HighlightColors Toggle<cr>", desc = "Toggle color swatches" },
     },
   },
 
-  -- Interactive color picker / converter (:CccPick on a color to edit it)
   {
     "uga-rosa/ccc.nvim",
     cmd = { "CccPick", "CccConvert", "CccHighlighterToggle" },

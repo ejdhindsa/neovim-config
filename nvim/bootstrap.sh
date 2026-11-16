@@ -7,7 +7,7 @@
 #   3) ~/dotfiles/nvim/bootstrap.sh
 #   4) open `nvim`  →  everything is installed and themed
 #
-# Or clone-less:  DOTFILES_REPO=git@github.com:you/dotfiles.git bash bootstrap.sh
+# Or clone-less:  DOTFILES_REPO=https://github.com/ejdhindsa/dotfiles.git bash bootstrap.sh
 #
 # Supports macOS (Homebrew) and Linux (apt / dnf / pacman / zypper), incl. WSL.
 # Idempotent — safe to re-run. Optional extras via flags:
@@ -50,7 +50,7 @@ case "$OS" in
   Darwin) PM="brew" ;;
   Linux) for m in apt-get dnf pacman zypper; do have "$m" && { PM="$m"; break; }; done ;;
 esac
-[ -n "$PM" ] || { c_err "No supported package manager found. Install deps manually (see nvim/README.md §1)."; exit 1; }
+[ -n "$PM" ] || { c_err "No supported package manager found. Install deps manually (see README.md)."; exit 1; }
 c_info "OS=$OS  package-manager=$PM  arch=$ARCH"
 
 # ---------- Homebrew (macOS) ----------

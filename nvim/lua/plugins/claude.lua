@@ -1,10 +1,3 @@
--- Claude Code integration. Drives the already-authenticated `claude` CLI as a
--- subprocess — so it rides your Claude Team/Pro subscription with NO Anthropic
--- API key and no metered billing (exactly the handoff constraint).
---
--- One-time: make sure `claude` is authenticated in WSL (`claude` → /login).
--- Keys are under <leader>a (see the which-key group label in workflow.lua).
-
 return {
   {
     "coder/claudecode.nvim",

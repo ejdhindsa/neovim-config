@@ -1,7 +1,4 @@
--- BlackFox — Neovim port of the Zed theme by Matej Cerny.
--- Near-black base, blue keywords, green italic comments, rose strings,
--- teal types, and the signature amber/gold functions.
--- Loaded via `:colorscheme blackfox` (also appears in <leader>th).
+-- BlackFox, ported from the Zed theme by Matej Cerny
 
 vim.cmd("highlight clear")
 if vim.g.syntax_on then
@@ -49,7 +46,7 @@ local c = {
 }
 
 local groups = {
-  -- ── Editor UI ──────────────────────────────────────────────────────
+  -- editor
   Normal = { fg = c.fg, bg = c.bg },
   NormalNC = { fg = c.fg, bg = c.bg },
   NormalFloat = { fg = c.fg, bg = c.bg_alt },
@@ -97,7 +94,7 @@ local groups = {
   WinBar = { fg = c.fg, bg = c.none },
   WinBarNC = { fg = c.faint, bg = c.none },
 
-  -- Popup menu (also covers blink.cmp defaults)
+  -- popup menu
   Pmenu = { fg = c.fg, bg = c.bg_alt },
   PmenuSel = { fg = c.white, bg = c.bg_elev, bold = true },
   PmenuKind = { fg = c.blue_br, bg = c.bg_alt },
@@ -105,7 +102,7 @@ local groups = {
   PmenuSbar = { bg = c.bg_alt },
   PmenuThumb = { bg = "#525456" },
 
-  -- ── Syntax (legacy) ────────────────────────────────────────────────
+  -- legacy syntax
   Comment = { fg = c.comment, italic = true },
   Constant = { fg = c.blue_br },
   String = { fg = c.rose },
@@ -140,7 +137,7 @@ local groups = {
   Error = { fg = c.red },
   Todo = { fg = c.bg, bg = c.amber, bold = true },
 
-  -- ── Treesitter ─────────────────────────────────────────────────────
+  -- treesitter
   ["@comment"] = { link = "Comment" },
   ["@comment.documentation"] = { fg = c.comment, italic = true },
   ["@comment.error"] = { fg = c.red },
@@ -178,7 +175,7 @@ local groups = {
   ["@constant.builtin"] = { fg = c.blue_br },
   ["@constant.macro"] = { fg = c.blue },
 
-  -- Faithful to BlackFox: function *definitions* are gold, *calls* stay fg
+  -- definitions are gold but calls stay plain, same as the zed theme
   ["@function"] = { fg = c.amber, italic = true },
   ["@function.builtin"] = { fg = c.amber },
   ["@function.call"] = { fg = c.fg },
@@ -216,7 +213,7 @@ local groups = {
   ["@attribute"] = { fg = c.amber_alt },
   ["@label"] = { fg = c.blue },
 
-  -- Markdown / markup
+  -- markdown
   ["@markup.heading"] = { fg = c.white, bold = true },
   ["@markup.heading.1"] = { fg = c.amber, bold = true },
   ["@markup.heading.2"] = { fg = c.blue_br, bold = true },
@@ -229,7 +226,7 @@ local groups = {
   ["@markup.list"] = { fg = c.cyan },
   ["@markup.quote"] = { fg = c.muted, italic = true },
 
-  -- LSP semantic tokens → follow the treesitter groups
+  -- semantic tokens
   ["@lsp.type.function"] = { link = "@function" },
   ["@lsp.type.method"] = { link = "@function.method" },
   ["@lsp.type.variable"] = { link = "@variable" },
@@ -241,7 +238,7 @@ local groups = {
   ["@lsp.type.interface"] = { link = "@type" },
   ["@lsp.type.namespace"] = { link = "@namespace" },
 
-  -- ── Diagnostics ────────────────────────────────────────────────────
+  -- diagnostics
   DiagnosticError = { fg = c.red },
   DiagnosticWarn = { fg = c.warn },
   DiagnosticInfo = { fg = c.cyan },
@@ -256,7 +253,7 @@ local groups = {
   DiagnosticVirtualTextInfo = { fg = c.cyan, bg = "#1F2A2A" },
   DiagnosticVirtualTextHint = { fg = c.hint, bg = "#2A2226" },
 
-  -- ── Git / diff ─────────────────────────────────────────────────────
+  -- git / diff
   DiffAdd = { bg = "#1F2A25" },
   DiffChange = { bg = "#2A2820" },
   DiffDelete = { bg = "#2C2020" },
@@ -269,8 +266,7 @@ local groups = {
   GitSignsDelete = { fg = c.red },
   GitSignsCurrentLineBlame = { fg = c.faint, italic = true },
 
-  -- ── Plugins ────────────────────────────────────────────────────────
-  -- Telescope
+  -- telescope
   TelescopeNormal = { fg = c.fg, bg = c.bg_alt },
   TelescopeBorder = { fg = c.border, bg = c.bg_alt },
   TelescopeTitle = { fg = c.amber, bold = true },
@@ -323,7 +319,7 @@ for group, spec in pairs(groups) do
   vim.api.nvim_set_hl(0, group, spec)
 end
 
--- Terminal palette (matches the Zed theme's ANSI colors)
+-- terminal colors
 vim.g.terminal_color_0 = "#45475a"
 vim.g.terminal_color_1 = "#E19B9B"
 vim.g.terminal_color_2 = "#A2E4D2"

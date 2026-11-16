@@ -1,7 +1,4 @@
--- Motion & navigation.
-
 return {
-  -- Flash: primary jump/motion engine (LazyVim default — s / S / f / t / r).
   {
     "folke/flash.nvim",
     opts = {
@@ -11,9 +8,8 @@ return {
     },
   },
 
-  -- Leap: OPTIONAL alternative to flash, disabled by default so it doesn't
-  -- fight flash over the `s` key. To try it: set enabled = true here AND set
-  -- flash's `s`/`S` keys to false in the spec above. Then leap maps s/S/gs.
+  -- off because it fights flash for s/S. to try it, enable this and unmap
+  -- flash's s/S
   {
     url = "https://codeberg.org/andyg/leap.nvim.git",
     name = "leap.nvim",
@@ -25,8 +21,7 @@ return {
     },
   },
 
-  -- Harpoon: pin your hot files, jump instantly. Namespaced under <leader>H
-  -- so it never collides with LazyVim's <leader>h git group.
+  -- <leader>H because <leader>h is lazyvim's git group
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
@@ -49,10 +44,9 @@ return {
     end,
   },
 
-  -- Symbol outline sidebar (like Zed's outline)
   {
     "stevearc/aerial.nvim",
-    branch = "nvim-0.11", -- master targets nvim 0.12+; this branch is the stable-0.11 line
+    branch = "nvim-0.11", -- master needs nvim 0.12
     dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
     opts = {
       backends = { "lsp", "treesitter", "markdown", "man" },
@@ -64,7 +58,6 @@ return {
     },
   },
 
-  -- Visible marks in the gutter
   {
     "chentoast/marks.nvim",
     event = { "BufReadPost", "BufNewFile" },

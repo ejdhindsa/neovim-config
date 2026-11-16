@@ -1,12 +1,5 @@
--- Loaded automatically by LazyVim before lazy setup.
--- Most defaults come from LazyVim; keep this lean and personal.
-
--- ── WSL clipboard bridge ───────────────────────────────────────────────
--- You edit on the WSL filesystem, so nvim needs a bridge to the Windows
--- clipboard. Preference order:
---   1. win32yank.exe  → cleanest two-way sync, no CRLF junk  (RECOMMENDED — install it)
---   2. OSC52 (copy)   → works through zellij + a modern terminal, no binary
---      + powershell Get-Clipboard (paste, with CR stripped)
+-- wsl clipboard: win32yank if it's installed, otherwise osc52 to copy and
+-- powershell to paste
 local function has(bin)
   return vim.fn.executable(bin) == 1
 end
@@ -33,7 +26,7 @@ elseif has("clip.exe") then
       ["*"] = ok and osc52.copy("*") or "clip.exe",
     },
     paste = {
-      -- strip the CR that powershell appends so pastes don't get ^M line endings
+      -- powershell adds \r to every line
       ["+"] = [[powershell.exe -NoLogo -NoProfile -Command Get-Clipboard | tr -d '\r']],
       ["*"] = [[powershell.exe -NoLogo -NoProfile -Command Get-Clipboard | tr -d '\r']],
     },
@@ -43,14 +36,16 @@ end
 
 vim.opt.clipboard = "unnamedplus"
 
--- ── Personal editor defaults (tweak freely) ────────────────────────────
 vim.opt.wrap = false
 vim.opt.scrolloff = 6
 vim.opt.sidescrolloff = 8
-vim.opt.confirm = true -- ask to save instead of erroring on :q with changes
+vim.opt.confirm = true
 vim.opt.spelllang = { "en_us" }
-vim.opt.timeoutlen = 400 -- snappier which-key
+vim.opt.timeoutlen = 400
 vim.opt.updatetime = 200
 
--- Nice fill/border characters (works great in a truecolor terminal)
 vim.opt.fillchars:append({ eob = " " })
+
+-- format on save kept reformatting code I didn't touch. <leader>cf instead
+-- (in visual mode it only formats the selection)
+vim.g.autoformat = false

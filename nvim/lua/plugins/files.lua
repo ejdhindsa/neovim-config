@@ -1,14 +1,8 @@
--- File navigation — you wanted BOTH paradigms:
---   • oil.nvim  → PRIMARY. Edit a directory like a buffer (rename/create/
---     delete by editing lines). Open the current file's dir with `-`.
---   • neo-tree  → BACKUP sidebar tree (closest to Zed's project panel), <leader>e.
-
 return {
-  -- oil.nvim (primary)
   {
     "stevearc/oil.nvim",
     dependencies = { "nvim-tree/nvim-web-devicons" },
-    lazy = false, -- needs to be present to take over directory buffers
+    lazy = false, -- has to load early to take over directory buffers
     opts = {
       default_file_explorer = true,
       delete_to_trash = true,
@@ -23,7 +17,7 @@ return {
       },
       keymaps = {
         ["q"] = "actions.close",
-        ["<C-h>"] = false, -- leave <C-h> for window nav (zellij-nav)
+        ["<C-h>"] = false, -- used by zellij-nav
         ["<C-l>"] = false,
       },
     },
@@ -33,13 +27,12 @@ return {
     },
   },
 
-  -- neo-tree (backup sidebar)
   {
     "nvim-neo-tree/neo-tree.nvim",
     opts = {
       filesystem = {
         follow_current_file = { enabled = true },
-        hijack_netrw_behavior = "disabled", -- oil owns directory buffers
+        hijack_netrw_behavior = "disabled", -- oil handles directories
         filtered_items = {
           visible = true,
           hide_dotfiles = false,

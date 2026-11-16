@@ -1,8 +1,4 @@
--- UI layer. LazyVim ships several of these; we override opts or swap in the
--- standalone versions you asked for.
-
 return {
-  -- ── Buffer/tab line ──────────────────────────────────────────────────
   {
     "akinsho/bufferline.nvim",
     opts = {
@@ -19,7 +15,6 @@ return {
     },
   },
 
-  -- ── Cmdline / messages / popupmenu overhaul ─────────────────────────
   {
     "folke/noice.nvim",
     event = "VeryLazy",
@@ -31,9 +26,9 @@ return {
           ["vim.lsp.util.stylize_markdown"] = true,
           ["cmp.entry.get_documentation"] = true,
         },
-        progress = { enabled = false }, -- fidget owns LSP progress
+        progress = { enabled = false }, -- fidget does this
       },
-      notify = { enabled = false }, -- snacks.notifier owns vim.notify
+      notify = { enabled = false }, -- snacks.notifier does this
       messages = { enabled = true },
       presets = {
         bottom_search = true,
@@ -44,7 +39,6 @@ return {
     },
   },
 
-  -- ── LSP progress spinner ─────────────────────────────────────────────
   {
     "j-hui/fidget.nvim",
     event = "LspAttach",
@@ -58,9 +52,6 @@ return {
     },
   },
 
-  -- Start screen is the Snacks dashboard ("FOR DORN") — configured in snacks.lua.
-
-  -- ── Indent guides + current-scope (replaces snacks indent) ───────────
   {
     "lukas-reineke/indent-blankline.nvim",
     main = "ibl",
@@ -77,7 +68,6 @@ return {
     },
   },
 
-  -- ── Floating filename in each window corner ──────────────────────────
   {
     "b0o/incline.nvim",
     event = "VeryLazy",
@@ -104,7 +94,6 @@ return {
     end,
   },
 
-  -- ── Scrollbar with diagnostic/git/search markers ─────────────────────
   {
     "lewis6991/satellite.nvim",
     event = { "BufReadPost", "BufNewFile" },
@@ -114,7 +103,6 @@ return {
     },
   },
 
-  -- ── Prettier inline diagnostics (replaces default virtual_text) ──────
   {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "LspAttach",

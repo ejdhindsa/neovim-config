@@ -14,9 +14,9 @@ inside a zellij pane).
 - `<leader>sk` — search all keymaps (Telescope).
 
 ### Source legend
-- 🟡 **Added** — a plugin you specifically asked for / I added for you.
-- 🔵 **Extra** — a LazyVim "extra" I enabled in `lua/config/lazy.lua`.
-- ⚪ **Default** — ships with LazyVim; you're inheriting it.
+- 🟡 **Added** — a plugin added on top of LazyVim.
+- 🔵 **Extra** — a LazyVim "extra" enabled in `lua/config/lazy.lua`.
+- ⚪ **Default** — ships with LazyVim.
 
 ### Lazy-loading note
 Most plugins load on-demand (opening a file, entering insert mode, pressing a key,
@@ -54,7 +54,7 @@ as you work. Nothing is broken.
 |---|---|---|---|
 | **neovim/nvim-lspconfig** | Wires up the language servers. | `gd` def · `gr` refs · `gI` impl · `gy` type-def · `K` hover · `<leader>ca` code action · `<leader>cr` rename · `<leader>cc` codelens · `]d`/`[d` next/prev diagnostic | ⚪ |
 | **mason-org/mason.nvim** (+ mason-lspconfig) | Installs LSP servers, formatters, linters. Throttled to **2 concurrent installs** so first launch doesn't stall WSL. | `:Mason` · `<leader>cm` | ⚪ / 🟡(throttle) |
-| **stevearc/conform.nvim** | Formatting. Prettier for JS/Vue/CSS/JSON/YAML/MD; stylua for Lua; rustfmt; clang-format; shfmt. | `<leader>cf` format · formats on save | ⚪ / 🔵(prettier) |
+| **stevearc/conform.nvim** | Formatting. Prettier for JS/Vue/CSS/JSON/YAML/MD; stylua for Lua; rustfmt; clang-format; shfmt. | `<leader>cf` format (selection in visual) · format-on-save is **off** (`<leader>uf` toggles it) | ⚪ / 🔵(prettier) |
 | **mfussenegger/nvim-lint** | Linting where an LSP doesn't cover it (eslint, markdownlint, shellcheck). | runs automatically on save/read | ⚪ |
 | **folke/trouble.nvim** | A pretty, navigable list for diagnostics, references, quickfix, symbols. | `<leader>xx` diagnostics · `<leader>xX` buffer · `<leader>cs` symbols · `<leader>cl` LSP refs | ⚪ |
 | **rachartier/tiny-inline-diagnostic.nvim** | Replaces the default virtual-text diagnostics with a nicer inline presentation. Default `virtual_text` is turned off in favor of this. | automatic | 🟡 |
@@ -70,7 +70,7 @@ as you work. Nothing is broken.
 
 | Plugin | What it does | Keys / usage | Source |
 |---|---|---|---|
-| **nvim-treesitter/nvim-treesitter** | Fast, accurate syntax highlighting + structural parsing. Parsers installed for your whole stack: js, jsdoc, ts, tsx, vue, css, scss, html, json, yaml, toml, dockerfile, sql, rust, cpp, c, markdown, bash, lua, regex, gitcommit, diff, and more. | `:TSUpdate` to update | ⚪ / 🟡(parsers) |
+| **nvim-treesitter/nvim-treesitter** | Fast, accurate syntax highlighting + structural parsing. Parsers installed for the whole stack: js, jsdoc, ts, tsx, vue, css, scss, html, json, yaml, toml, dockerfile, sql, rust, cpp, c, markdown, bash, lua, regex, gitcommit, diff, and more. | `:TSUpdate` to update | ⚪ / 🟡(parsers) |
 | **nvim-treesitter-textobjects** | Select/move by function, class, parameter. | `af`/`if` function · `ac`/`ic` class · `aa`/`ia` argument · `]f`/`[f` next/prev function | ⚪ |
 | **windwp/nvim-ts-autotag** | Auto-close & auto-rename HTML/Vue/JSX tags. | automatic in markup | 🟡 |
 | **folke/ts-comments.nvim** | Context-aware commenting (correct comment syntax inside `.vue` template vs script vs style). | `gcc` line · `gc` (visual) · `gbc` block | ⚪ |
@@ -81,7 +81,7 @@ as you work. Nothing is broken.
 
 | Plugin | What it does | Keys / usage | Source |
 |---|---|---|---|
-| **BlackFox** (`colors/blackfox.lua`) | **Your active theme** — a faithful port of your Zed BlackFox theme (near-black base, blue keywords, green italic comments, rose strings, teal types, amber/gold functions). | active on launch; edit any highlight in the file | 🟡 |
+| **BlackFox** (`colors/blackfox.lua`) | **The active theme** — a faithful port of the BlackFox Zed theme by Matej Cerny (near-black base, blue keywords, green italic comments, rose strings, teal types, amber/gold functions). | active on launch; edit any highlight in the file | 🟡 |
 | **rktjmp/lush.nvim** | Colorscheme-authoring toolkit (was going to be the BlackFox vehicle; kept for building/tweaking themes live). | `:Lushify` | 🟡 |
 | **Theme library** | Installed for browsing via `<leader>th`: tokyonight, catppuccin, kanagawa, rose-pine, gruvbox, gruvbox-material, everforest, sonokai, edge, nightfox, oxocarbon, nord, onedark, onedarkpro, modus, dracula, vscode, github, material, bamboo. | `<leader>th` preview & pick | 🟡 |
 | **brenoprata10/nvim-highlight-colors** | Inline swatches for `#hex`, `rgb()`, `hsl()`, named colors (great in Sass). | `<leader>uH` toggle | 🟡 |
@@ -150,7 +150,7 @@ as you work. Nothing is broken.
 | Plugin | What it does | Keys / usage | Source |
 |---|---|---|---|
 | **lewis6991/gitsigns.nvim** | Gutter hunks + **inline blame** on the current line. | `]h`/`[h` next/prev hunk · `<leader>ghs` stage · `<leader>ghr` reset · `<leader>ghp` preview · `<leader>ghb` blame line | ⚪/🟡(blame on) |
-| **Snacks lazygit** | Full lazygit TUI in a float — just needs the lazygit binary (you have it). | `<leader>gg` | ⚪ |
+| **Snacks lazygit** | Full lazygit TUI in a float — just needs the lazygit binary. | `<leader>gg` | ⚪ |
 | **sindrets/diffview.nvim** | Side-by-side diffs + file/branch history (PR-review style). | `<leader>gdd` working tree · `<leader>gdf` file history · `<leader>gdh` branch history · `<leader>gdc` close | 🟡 |
 | **linrongbin16/gitlinker.nvim** | Yank / open a permalink to the current line (Bitbucket supported). | `<leader>gy` copy link · `<leader>gY` open in browser (n + visual) | 🟡 |
 | **akinsho/git-conflict.nvim** | Highlighted merge-conflict resolution. | `co` ours · `ct` theirs · `cb` both · `c0` none · `]x`/`[x` navigate | 🟡 |
@@ -219,4 +219,4 @@ as you work. Nothing is broken.
 3. When unsure of a key: press `<leader>` and read the which-key popup.
 4. Browse themes with `<leader>th`; everything is yours to edit under `lua/plugins/`.
 
-*Full keybinding cheat-sheet: see `README.md` §4.*
+*Keybinding overview: see the repo's root `README.md`.*

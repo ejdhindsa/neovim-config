@@ -1,10 +1,9 @@
--- Task runner — run npm scripts, build steps, Cypress, etc. from inside nvim.
 return {
   {
     "stevearc/overseer.nvim",
     cmd = { "OverseerRun", "OverseerToggle", "OverseerQuickAction", "OverseerInfo" },
     opts = {
-      templates = { "builtin", "vscode" }, -- picks up package.json scripts + .vscode/tasks.json
+      templates = { "builtin", "vscode" },
       task_list = { direction = "bottom", min_height = 12 },
     },
     keys = {

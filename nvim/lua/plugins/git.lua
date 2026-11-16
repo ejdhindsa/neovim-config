@@ -1,9 +1,4 @@
--- Git stack. gitsigns + lazygit come from LazyVim/snacks; we enable inline
--- blame and add diffview, gitlinker, and conflict resolution.
---   • lazygit  → <leader>gg  (Snacks float — just needs the lazygit binary, ✓)
-
 return {
-  -- Inline blame + gutter hunks (gitsigns is a LazyVim default)
   {
     "lewis6991/gitsigns.nvim",
     opts = {
@@ -17,7 +12,6 @@ return {
     },
   },
 
-  -- Side-by-side diffs + file/branch history (PR-review style)
   {
     "sindrets/diffview.nvim",
     cmd = { "DiffviewOpen", "DiffviewFileHistory", "DiffviewClose" },
@@ -32,7 +26,6 @@ return {
     },
   },
 
-  -- Yank / open a permalink to the current line (works with Bitbucket remotes)
   {
     "linrongbin16/gitlinker.nvim",
     cmd = "GitLink",
@@ -43,7 +36,6 @@ return {
     },
   },
 
-  -- Highlighted merge-conflict resolution: co/ct/cb/c0, ]x / [x to navigate
   {
     "akinsho/git-conflict.nvim",
     version = "*",
