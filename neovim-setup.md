@@ -1,222 +1,182 @@
-# Neovim Setup — Field Guide
+# Every plugin in this config
 
-A detailed tour of everything in this config: what each plugin does, how to use
-it, and where it came from. Built on **LazyVim** (WSL/Ubuntu, Neovim 0.11.x,
-inside a zellij pane).
+This is the long version of the README. It lists every plugin I use, what it's for and
+the keys I use with it. A lot of these come with LazyVim and I just left them on.
+The ones I added or changed are in `lua/plugins/`, and the LazyVim extras I turned
+on are in `lua/config/lazy.lua`.
 
-**Leader key = `<Space>`.** Throughout, `<leader>` means Space.
+Leader is <kbd>Space</kbd>.
 
-### How to explore it yourself
-- `:Lazy` — the plugin manager. Shows every plugin, whether it's loaded, and why.
-- `:Lazy profile` — startup times and load reasons.
-- **which-key**: press `<leader>` (or `g`, `]`, `[`, `"`, `z`) and *wait* — a popup lists what's available. This is your live cheat-sheet.
-- `<leader>th` — live theme picker with preview.
-- `<leader>sk` — search all keymaps (Telescope).
+Some useful places to look:
 
-### Source legend
-- 🟡 **Added** — a plugin added on top of LazyVim.
-- 🔵 **Extra** — a LazyVim "extra" enabled in `lua/config/lazy.lua`.
-- ⚪ **Default** — ships with LazyVim.
+- `:Lazy` shows every plugin and whether it's loaded. Most of them load when you
+  first need them, so seeing "40/106 loaded" is normal.
+- `:Lazy profile` shows startup times.
+- Press `<leader>` (or `g`, `[`, `]`, `z`) and wait, and which-key lists what you can press next.
+- `<leader>sk` searches every keymap.
 
-### Lazy-loading note
-Most plugins load on-demand (opening a file, entering insert mode, pressing a key,
-running a command), so `:Lazy` showing "X/Y loaded" is normal — the number climbs
-as you work. Nothing is broken.
+## Base
 
----
+- **LazyVim**: the defaults for LSP, completion, treesitter, git and keymaps. I override
+  whatever I don't like.
+- **lazy.nvim**: the plugin manager. `lazy-lock.json` pins the versions.
+- **snacks.nvim**: does a lot of small things: the start screen, notifications,
+  lazygit, scratch buffers and handling big files.
+- **plenary.nvim** and **nui.nvim**: libraries that other plugins need.
 
-## 1. Framework & libraries
+## Completion and AI
 
-| Plugin | What it does | Source |
+| Plugin | What it does | Keys |
 |---|---|---|
-| **LazyVim/LazyVim** | The base distribution — sensible defaults for LSP, completion, Treesitter, git, keymaps. We treat it as scaffolding and override freely. | ⚪ |
-| **folke/lazy.nvim** | The plugin manager itself. `:Lazy` to manage; `lazy-lock.json` pins versions for reproducibility. | ⚪ |
-| **nvim-lua/plenary.nvim** | Lua utility library many plugins depend on (async, paths, etc.). | ⚪ |
-| **MunifTanjim/nui.nvim** | UI-component library used by noice, neo-tree, package-info. | ⚪ |
-| **folke/snacks.nvim** | Folke's QOL toolkit — powers the dashboard, notifications, lazygit, scratch buffers, big-file handling, and more (see §6/§10). | ⚪ |
+| blink.cmp | Completion. I turned off its ghost text because Copilot does that. | `<C-space>` open, `<C-n>`/`<C-p>` move, `<CR>`/`<Tab>` accept, `<C-e>` close |
+| LuaSnip + friendly-snippets | Snippets | `<Tab>`/`<S-Tab>` jump between fields |
+| copilot.lua | Copilot ghost text. Run `:Copilot auth` once. | `<M-l>` accept, `<M-]>`/`<M-[>` next/prev, `<C-]>` dismiss |
+| claudecode.nvim | Claude Code in a split on the right. It uses the `claude` CLI, so you need to be logged in there. | `<leader>ac` toggle, `<leader>af` focus, `<leader>as` send selection, `<leader>ab` add file, `<leader>aa`/`<leader>ay` accept/reject diff, `<leader>ar` resume, `<leader>aC` continue, `<leader>am` model |
 
----
+## LSP, formatting and diagnostics
 
-## 2. Completion & AI
+| Plugin | What it does | Keys |
+|---|---|---|
+| nvim-lspconfig | Sets up the language servers | `gd` definition, `gr` references, `gI` implementation, `gy` type, `K` hover, `<leader>ca` code action, `<leader>cr` rename, `]d`/`[d` next/prev diagnostic |
+| mason.nvim | Installs language servers, formatters and linters. Set to 2 at a time, because more than that froze WSL on the first launch. | `:Mason`, `<leader>cm` |
+| conform.nvim | Formatting: Prettier for web stuff, stylua, rustfmt, clang-format, shfmt. Format on save is off. | `<leader>cf` (only the selection in visual mode), `<leader>uf` turns format on save back on |
+| nvim-lint | eslint, markdownlint and shellcheck where the LSP doesn't cover it | runs on its own |
+| trouble.nvim | A list of diagnostics, references and symbols you can jump through | `<leader>xx`, `<leader>xX` (this buffer), `<leader>cs` symbols |
+| tiny-inline-diagnostic | Nicer inline error messages than the default | |
+| fidget.nvim | Small LSP loading spinner in the corner | |
+| lazydev.nvim | Completion for the Neovim API when editing this config | |
+| SchemaStore.nvim | JSON schemas for `package.json`, `tsconfig.json` and so on | |
 
-| Plugin | What it does | Keys / usage | Source |
+Language servers: vtsls, vue_ls (in hybrid mode with vtsls), eslint, cssls, jsonls,
+bashls, dockerls, docker-compose, yamlls, marksman, clangd, rust-analyzer (through
+rustaceanvim) and lua_ls.
+
+## Treesitter
+
+| Plugin | What it does | Keys |
+|---|---|---|
+| nvim-treesitter | Highlighting and parsing. I added parsers for everything I use (js, ts, vue, scss, sql, rust, c/cpp, docker and more). | `:TSUpdate` |
+| treesitter-textobjects | Select or jump by function, class or argument | `af`/`if`, `ac`/`ic`, `aa`/`ia`, `]f`/`[f` |
+| nvim-ts-autotag | Closes and renames HTML/Vue/JSX tags automatically | |
+| ts-comments.nvim | Uses the right comment style in each part of a `.vue` file | `gcc` line, `gc` selection |
+
+## Colors
+
+| Plugin | What it does | Keys |
+|---|---|---|
+| BlackFox (`colors/blackfox.lua`) | My port of Matej Cerny's BlackFox theme from Zed. It's the theme I use. | |
+| Other themes | tokyonight, catppuccin, kanagawa, rose-pine, gruvbox, gruvbox-material, everforest, sonokai, edge, nightfox, oxocarbon, nord, onedark, onedarkpro, modus, dracula, vscode, github, material, bamboo | `<leader>th` previews them |
+| lush.nvim | For making themes. I ended up not using it for BlackFox, but kept it around. | `:Lushify` |
+| nvim-highlight-colors | Shows a swatch next to hex/rgb/hsl colors | `<leader>uH` toggle |
+| ccc.nvim | Color picker. Put the cursor on a color and edit it. | `<leader>cP` |
+
+## UI
+
+| Plugin | What it does | Keys |
+|---|---|---|
+| heirline.nvim | My statusline, made from scratch in Imperial Fists black and gold. It replaces lualine. | |
+| snacks dashboard | The FOR DORN start screen | open `nvim` with no file |
+| bufferline.nvim | Buffer tabs along the top | `<S-h>`/`<S-l>`, `<leader>bd` close, `<leader>bp` pin |
+| noice.nvim | Moves the cmdline into a popup and puts borders on LSP docs | `<leader>sn` message history |
+| incline.nvim | Filename in the top right of each split | |
+| satellite.nvim | Scrollbar that shows git changes, errors and search results | |
+| indent-blankline | Indent guides | |
+| which-key.nvim | Shows what keys you can press next. I labeled my own groups (claude, harpoon, npm, overseer, diffview, database). | |
+| snacks (notifier, words) | Notifications, and highlighting other uses of the word under the cursor | `]]`/`[[` jump between them |
+
+## Editing
+
+| Plugin | What it does | Keys |
+|---|---|---|
+| mini.surround | Add, change or delete quotes and brackets around things | `gsa`, `gsd`, `gsr` (for example `gsaiw"`) |
+| nvim-autopairs | Auto-closes brackets. I use it instead of LazyVim's mini.pairs. | `<M-e>` wraps the next thing |
+| mini.ai | More text objects | `daf`, `ci(`, `via` and so on |
+| mini.move | Moves lines and selections | `<M-h/j/k/l>` |
+| dial.nvim | `<C-a>` works on dates, booleans, hex, semver, `let`/`const`, `&&`/`\|\|` and CSS units too | `<C-a>`/`<C-x>`, `g<C-a>` in visual for a sequence |
+| nvim-spider | `w`/`e`/`b` stop inside camelCase and snake_case words | `w`, `e`, `b`, `ge` |
+| yanky.nvim | Yank history | `<leader>p` history, `<C-n>`/`<C-p>` after pasting to cycle |
+| vim-repeat | Lets `.` repeat plugin actions | |
+| vim-sleuth | Detects each file's indent size | |
+| vim-visual-multi | Multi-cursor like VS Code/Zed. Vim's own `gn` and macros are probably better, but I'm used to this. | `<C-n>` next match, `<C-Up>`/`<C-Down>` add cursor, `q` skip, `<Esc>` exit |
+
+## Getting around
+
+| Plugin | What it does | Keys |
+|---|---|---|
+| flash.nvim | Jump anywhere with a couple of keys | `s`, `S` for treesitter selection |
+| leap.nvim | Turned off because it fights flash for `s`. Enable it in `motion.lua` if you want it. | |
+| harpoon | Pin a few files you keep going back to | `<leader>Ha` add, `<leader>Hh` menu, `<leader>1`-`4` jump, `<leader>Hp`/`<leader>Hn` prev/next |
+| aerial.nvim | Symbol outline. On the `nvim-0.11` branch, because master needs 0.12. | `<leader>co` |
+| marks.nvim | Shows marks in the gutter | `m` + a letter |
+| telescope.nvim | Fuzzy finder | `<leader><space>` files, `<leader>/` grep, `<leader>,` buffers, `<leader>fr` recent, `<leader>ss` symbols |
+| telescope-undo | Undo history as a tree, with diffs | `<leader>fu` |
+
+## Files
+
+| Plugin | What it does | Keys |
+|---|---|---|
+| oil.nvim | My main file manager. Edit the folder like a normal file, then `:w` to rename, create or delete files. Deleted files go to the trash. | `-` parent folder, `<leader>-` floating |
+| neo-tree.nvim | Sidebar tree, for when I want the Zed-style view | `<leader>e` |
+
+## Git
+
+| Plugin | What it does | Keys |
+|---|---|---|
+| gitsigns.nvim | Changes in the gutter, and blame at the end of the current line | `]h`/`[h`, `<leader>ghs` stage, `<leader>ghr` reset, `<leader>ghp` preview |
+| lazygit (snacks) | lazygit in a floating window. You need lazygit installed. | `<leader>gg` |
+| diffview.nvim | Side-by-side diffs and file history | `<leader>gdd`, `<leader>gdf` file history, `<leader>gdh` branch history, `<leader>gdc` close |
+| gitlinker.nvim | Copy or open a link to the current line on GitHub/Bitbucket | `<leader>gy` copy, `<leader>gY` open |
+| git-conflict.nvim | Merge conflict helpers | `co` ours, `ct` theirs, `cb` both, `c0` none, `]x`/`[x` |
+| gitbrowse (snacks) | Open the file on the remote | `<leader>gB` |
+
+## Terminal and zellij
+
+| Plugin | What it does | Keys |
+|---|---|---|
+| zellij-nav.nvim | Moves between splits, and into the next zellij pane at the edge | `<C-h/j/k/l>` |
+| smart-splits.nvim | Resizes splits. It can't move into zellij panes, so zellij-nav handles that. | `<C-Arrows>` |
+| toggleterm.nvim | A quick floating terminal. zellij is still where my real terminals live. | `` <C-\> `` |
+
+## Tests and tasks
+
+| Plugin | What it does | Keys |
+|---|---|---|
+| neotest + neotest-vitest | Run Vitest tests from the file and see pass/fail inline. Cypress has no adapter, so I run it with overseer. | `<leader>tr` nearest, `<leader>tt` file, `<leader>ts` summary, `<leader>to` output |
+| overseer.nvim | Runs `package.json` scripts and `.vscode/tasks.json` | `<leader>ow` list, `<leader>or` run, `<leader>oa` actions |
+
+## Language specific
+
+| Plugin | For | What it does | Keys |
 |---|---|---|---|
-| **saghen/blink.cmp** | The completion engine (Rust-fuzzy, fast). Its own ghost-text is **off** so Copilot owns that. | `<C-space>` open, `<C-n>/<C-p>` cycle, `<CR>`/`<Tab>` accept, `<C-e>` cancel | ⚪ |
-| **L3MON4D3/LuaSnip** + **friendly-snippets** | Snippet engine + a big community snippet collection. | `<Tab>`/`<S-Tab>` jump between placeholders | ⚪ |
-| **zbirenbaum/copilot.lua** | GitHub Copilot **ghost-text** autocomplete (rides your Copilot subscription). Run `:Copilot auth` once. | `<M-l>` accept · `<M-]>`/`<M-[>` next/prev · `<C-]>` dismiss | 🔵 |
-| **coder/claudecode.nvim** | Drives the authenticated `claude` CLI in a split — Claude Code on your subscription, **no API key**. | `<leader>ac` toggle · `<leader>af` focus · `<leader>as` send selection (visual) · `<leader>ab` add file · `<leader>aa`/`<leader>ay` accept/deny diff · `<leader>ar` resume · `<leader>aC` continue · `<leader>am` model | 🟡 |
+| vue_ls + vtsls | Vue / JS | Vue and JS support | normal LSP keys |
+| package-info.nvim | npm | Shows outdated versions in `package.json` | `<leader>ns` show, `<leader>nu` update, `<leader>ni` install, `<leader>nc` change version |
+| dadbod + dadbod-ui | SQL | SQL client. Connections come from env vars so no passwords end up in git. | `<leader>Du`, `<leader>s` runs the query in SQL files |
+| rustaceanvim + crates.nvim | Rust | rust-analyzer, and version info in `Cargo.toml` | |
+| clangd_extensions | C/C++ | Inlay hints, switch between source and header | `<leader>ch` |
+| render-markdown.nvim | Markdown | Renders headings, tables and code blocks right in the buffer | |
+| marksman | Markdown | LSP for links | |
 
----
+## Workflow
 
-## 3. LSP, formatting, linting & diagnostics
+| Plugin | What it does | Keys |
+|---|---|---|
+| persistence.nvim | Saves and restores sessions for each folder | `<leader>qs` restore, `<leader>ql` last, `<leader>qd` don't save |
+| legendary.nvim | Searchable list of commands and keymaps | `<leader>fp` |
+| grug-far.nvim | Find and replace across the project | `<leader>sr` |
+| project.nvim | Detects project roots and has a project picker | `<leader>fP` |
 
-| Plugin | What it does | Keys / usage | Source |
-|---|---|---|---|
-| **neovim/nvim-lspconfig** | Wires up the language servers. | `gd` def · `gr` refs · `gI` impl · `gy` type-def · `K` hover · `<leader>ca` code action · `<leader>cr` rename · `<leader>cc` codelens · `]d`/`[d` next/prev diagnostic | ⚪ |
-| **mason-org/mason.nvim** (+ mason-lspconfig) | Installs LSP servers, formatters, linters. Throttled to **2 concurrent installs** so first launch doesn't stall WSL. | `:Mason` · `<leader>cm` | ⚪ / 🟡(throttle) |
-| **stevearc/conform.nvim** | Formatting. Prettier for JS/Vue/CSS/JSON/YAML/MD; stylua for Lua; rustfmt; clang-format; shfmt. | `<leader>cf` format (selection in visual) · format-on-save is **off** (`<leader>uf` toggles it) | ⚪ / 🔵(prettier) |
-| **mfussenegger/nvim-lint** | Linting where an LSP doesn't cover it (eslint, markdownlint, shellcheck). | runs automatically on save/read | ⚪ |
-| **folke/trouble.nvim** | A pretty, navigable list for diagnostics, references, quickfix, symbols. | `<leader>xx` diagnostics · `<leader>xX` buffer · `<leader>cs` symbols · `<leader>cl` LSP refs | ⚪ |
-| **rachartier/tiny-inline-diagnostic.nvim** | Replaces the default virtual-text diagnostics with a nicer inline presentation. Default `virtual_text` is turned off in favor of this. | automatic | 🟡 |
-| **j-hui/fidget.nvim** | Little LSP-progress spinner in the corner (noice's LSP progress is disabled so this owns it). | automatic | 🟡 |
-| **folke/lazydev.nvim** | Makes editing *this Lua config* pleasant — full Neovim API completion. | automatic in Lua | ⚪ |
-| **b0o/SchemaStore.nvim** | Auto JSON schemas for `package.json`, `tsconfig.json`, etc. | automatic in JSON | 🔵 |
+## Extras
 
-**LSP servers installed (via Mason):** `vtsls` (JS/TS intellisense), `vue_ls` (Volar, Vue SFCs, hybrid mode with vtsls), `eslint`, `cssls`, `jsonls`, `bashls`, `dockerls` + `docker_compose_language_service`, `yamlls`, `marksman` (Markdown), `clangd` (C/C++), `rust_analyzer` (via rustaceanvim), `lua_ls`.
+| Plugin | What it does | Keys |
+|---|---|---|
+| zen-mode + twilight | Distraction-free mode, with twilight dimming the code you're not in | `<leader>uz`, `<leader>uZ` |
+| mini.animate | Small cursor and resize animations. Scroll animation is off because it lags in zellij. | |
+| presence.nvim | Discord status. It doesn't show file or project names. On WSL it needs an IPC bridge to reach Discord. | |
+| vim-wakatime | WakaTime tracking. It asks for your API key on the first launch. | `:WakaTimeApiKey` |
 
----
+## If you're new to it
 
-## 4. Treesitter (syntax, structure, text objects)
-
-| Plugin | What it does | Keys / usage | Source |
-|---|---|---|---|
-| **nvim-treesitter/nvim-treesitter** | Fast, accurate syntax highlighting + structural parsing. Parsers installed for the whole stack: js, jsdoc, ts, tsx, vue, css, scss, html, json, yaml, toml, dockerfile, sql, rust, cpp, c, markdown, bash, lua, regex, gitcommit, diff, and more. | `:TSUpdate` to update | ⚪ / 🟡(parsers) |
-| **nvim-treesitter-textobjects** | Select/move by function, class, parameter. | `af`/`if` function · `ac`/`ic` class · `aa`/`ia` argument · `]f`/`[f` next/prev function | ⚪ |
-| **windwp/nvim-ts-autotag** | Auto-close & auto-rename HTML/Vue/JSX tags. | automatic in markup | 🟡 |
-| **folke/ts-comments.nvim** | Context-aware commenting (correct comment syntax inside `.vue` template vs script vs style). | `gcc` line · `gc` (visual) · `gbc` block | ⚪ |
-
----
-
-## 5. Colorscheme & theming
-
-| Plugin | What it does | Keys / usage | Source |
-|---|---|---|---|
-| **BlackFox** (`colors/blackfox.lua`) | **The active theme** — a faithful port of the BlackFox Zed theme by Matej Cerny (near-black base, blue keywords, green italic comments, rose strings, teal types, amber/gold functions). | active on launch; edit any highlight in the file | 🟡 |
-| **rktjmp/lush.nvim** | Colorscheme-authoring toolkit (was going to be the BlackFox vehicle; kept for building/tweaking themes live). | `:Lushify` | 🟡 |
-| **Theme library** | Installed for browsing via `<leader>th`: tokyonight, catppuccin, kanagawa, rose-pine, gruvbox, gruvbox-material, everforest, sonokai, edge, nightfox, oxocarbon, nord, onedark, onedarkpro, modus, dracula, vscode, github, material, bamboo. | `<leader>th` preview & pick | 🟡 |
-| **brenoprata10/nvim-highlight-colors** | Inline swatches for `#hex`, `rgb()`, `hsl()`, named colors (great in Sass). | `<leader>uH` toggle | 🟡 |
-| **uga-rosa/ccc.nvim** | Interactive color picker / converter — sit on a color and edit it. | `<leader>cP` pick · `:CccConvert` | 🟡 |
-
----
-
-## 6. Statusline, UI & start screen
-
-| Plugin | What it does | Keys / usage | Source |
-|---|---|---|---|
-| **rebelot/heirline.nvim** | Your **custom statusline**, hand-built and themed after the Imperial Fists (black + gold, mode badge, git, diagnostics, LSP, file, ruler). Replaces lualine. | automatic | 🟡 |
-| **Snacks dashboard** | The **FOR DORN** start screen (Imperial Fists gold-on-black, rotating Rogal Dorn quote, quick-action menu). | shown on `nvim` with no file | 🟡 (config) |
-| **akinsho/bufferline.nvim** | Tab-style buffer bar along the top with diagnostics + a neo-tree offset. | `<S-h>`/`<S-l>` prev/next · `[b`/`]b` · `<leader>bd` close · `<leader>bp` pin | ⚪ |
-| **folke/noice.nvim** | Rethinks the cmdline / messages / popupmenu (command palette, centered search, bordered LSP docs). | `<leader>sn` message history | ⚪/🟡(tuned) |
-| **b0o/incline.nvim** | Floating filename + icon in each window's top-right corner (handy with splits). | automatic | 🟡 |
-| **lewis6991/satellite.nvim** | Scrollbar with diagnostic / git / search markers. | automatic | 🟡 |
-| **lukas-reineke/indent-blankline.nvim** | Indent guides + current-scope highlight. | automatic | 🟡 |
-| **folke/which-key.nvim** | The popup that shows available keybinds after a prefix. Custom groups labeled (claude, harpoon, npm, overseer, diffview, database). | press any prefix and wait | ⚪ |
-| **folke/snacks.nvim** (notifier, input, words, bigfile, quickfile) | Pretty notifications; nicer `vim.ui.input`; highlight/jump references under cursor; smooth handling of huge files. | `]]`/`[[` next/prev reference | ⚪ |
-
----
-
-## 7. Editing
-
-| Plugin | What it does | Keys / usage | Source |
-|---|---|---|---|
-| **echasnovski/mini.surround** | Add/change/delete surrounding quotes/brackets/tags. | `gsa` add · `gsd` delete · `gsr` replace (e.g. `gsaiw"`) | 🔵 |
-| **windwp/nvim-autopairs** | Auto-closes brackets/quotes (Treesitter-aware). Replaces LazyVim's mini.pairs. | automatic · `<M-e>` fast-wrap | 🟡 |
-| **echasnovski/mini.ai** | Smarter text objects — function, argument, and more, with `a`/`i` variants. | `ci(`, `daf`, `via`, etc. | ⚪ |
-| **echasnovski/mini.move** | Move lines/selections around. | `<M-h/j/k/l>` (Alt + hjkl) | 🟡 |
-| **monaqa/dial.nvim** | Increment/decrement numbers, dates, booleans, hex, semver, css units. | `<C-a>` inc · `<C-x>` dec (also in visual + `g<C-a>` ramp) | 🟡 |
-| **chrisgrieser/nvim-spider** | `w`/`e`/`b`/`ge` stop at camelCase & snake_case sub-words. | `w` `e` `b` `ge` (n/o/x modes) | 🟡 |
-| **gbprod/yanky.nvim** | Yank ring + history you can cycle/search. | `<leader>p` yank history · `<C-n>`/`<C-p>` cycle after paste | 🔵 |
-| **tpope/vim-repeat** | Makes `.` repeat plugin actions (surround, etc.), not just native edits. | `.` | 🟡 |
-| **tpope/vim-sleuth** | Auto-detects indent width/style per file. | automatic | 🟡 |
-| **mg979/vim-visual-multi** | VSCode/Zed-style multi-cursor. *Note: a bolt-on emulating VSCode behaviour — vim-native `gn`/macros/`:s` are more powerful long-term.* | `<C-n>` select next match · `<C-Down>/<C-Up>` add cursor · `q` skip · `<Esc>` exit | 🟡 |
-
----
-
-## 8. Motion & navigation
-
-| Plugin | What it does | Keys / usage | Source |
-|---|---|---|---|
-| **folke/flash.nvim** | Jump anywhere in 2–3 keystrokes; supercharges `f`/`t` and Treesitter selection. | `s` jump · `S` Treesitter select · `f`/`t` enhanced | ⚪ |
-| **leap.nvim** | Optional alternative to flash (**disabled** by default so it doesn't fight for `s`; flip `enabled` in `motion.lua` to try). | — | 🟡 (off) |
-| **ThePrimeagen/harpoon** (v2) | Pin your 4–5 hot files and jump instantly — faster than re-searching. | `<leader>Ha` add · `<leader>Hh` menu · `<leader>1`–`<leader>4` jump to slot · `<leader>Hp`/`<leader>Hn` prev/next | 🟡 |
-| **stevearc/aerial.nvim** | Symbol outline sidebar (like Zed's outline). Pinned to the `nvim-0.11` branch. | `<leader>co` toggle | 🟡 |
-| **chentoast/marks.nvim** | Shows marks in the gutter + better mark management. | `m` + letter to set; marks show in gutter | 🟡 |
-| **nvim-telescope/telescope.nvim** (+ fzf-native) | Fuzzy finder for files, grep, buffers, symbols — the **picker backend**. | `<leader><space>`/`<leader>ff` files · `<leader>/`/`<leader>sg` live grep · `<leader>,` buffers · `<leader>fr` recent · `<leader>ss` symbols · `<leader>sk` keymaps | 🔵 |
-| **debugloop/telescope-undo.nvim** | Browse undo history as a tree with diffs. | `<leader>fu` | 🟡 |
-
----
-
-## 9. File management
-
-| Plugin | What it does | Keys / usage | Source |
-|---|---|---|---|
-| **stevearc/oil.nvim** | **Primary** file manager — edit a directory like a text buffer (rename/create/delete by editing lines, then `:w`). | `-` open parent dir · `<leader>-` floating | 🟡 |
-| **nvim-neo-tree/neo-tree.nvim** | **Backup** sidebar tree (closest to Zed's project panel). netrw hijack disabled so oil owns directories. | `<leader>e` toggle · `<leader>fe` (root) | ⚪ |
-
----
-
-## 10. Git
-
-| Plugin | What it does | Keys / usage | Source |
-|---|---|---|---|
-| **lewis6991/gitsigns.nvim** | Gutter hunks + **inline blame** on the current line. | `]h`/`[h` next/prev hunk · `<leader>ghs` stage · `<leader>ghr` reset · `<leader>ghp` preview · `<leader>ghb` blame line | ⚪/🟡(blame on) |
-| **Snacks lazygit** | Full lazygit TUI in a float — just needs the lazygit binary. | `<leader>gg` | ⚪ |
-| **sindrets/diffview.nvim** | Side-by-side diffs + file/branch history (PR-review style). | `<leader>gdd` working tree · `<leader>gdf` file history · `<leader>gdh` branch history · `<leader>gdc` close | 🟡 |
-| **linrongbin16/gitlinker.nvim** | Yank / open a permalink to the current line (Bitbucket supported). | `<leader>gy` copy link · `<leader>gY` open in browser (n + visual) | 🟡 |
-| **akinsho/git-conflict.nvim** | Highlighted merge-conflict resolution. | `co` ours · `ct` theirs · `cb` both · `c0` none · `]x`/`[x` navigate | 🟡 |
-| **Snacks gitbrowse** | Open the current file/line on the remote host in your browser. | `<leader>gB` | ⚪ |
-
----
-
-## 11. Terminal & multiplexer
-
-| Plugin | What it does | Keys / usage | Source |
-|---|---|---|---|
-| **swaits/zellij-nav.nvim** | `Ctrl-hjkl` moves between nvim splits **and** crosses into neighbouring zellij panes. | `<C-h/j/k/l>` | 🟡 |
-| **mrjones2014/smart-splits.nvim** | Split **resizing** (kept off `Ctrl-hjkl` so it doesn't clash with zellij-nav). | `<C-Up/Down/Left/Right>` resize | 🟡 |
-| **akinsho/toggleterm.nvim** | Quick **scratch** terminals only — zellij still owns your real pane/tab layout. | `` <C-\> `` float terminal | 🟡 |
-
----
-
-## 12. Testing & tasks
-
-| Plugin | What it does | Keys / usage | Source |
-|---|---|---|---|
-| **nvim-neotest/neotest** + **neotest-vitest** | Run/debug individual Vitest tests from the buffer with inline pass/fail marks. *(Cypress has no adapter — run e2e via Overseer or a terminal.)* | `<leader>tr` run nearest · `<leader>tt` run file · `<leader>ts` summary · `<leader>to` output · `<leader>tS` stop | 🔵/🟡 |
-| **stevearc/overseer.nvim** | Task runner — runs `package.json` scripts, build steps, Cypress, `.vscode/tasks.json`. | `<leader>ow` task list · `<leader>or` run · `<leader>oa` quick action | 🟡 |
-
----
-
-## 13. Language-specific tooling
-
-| Plugin / tool | Language | What it does | Keys / usage | Source |
-|---|---|---|---|---|
-| **vue_ls + vtsls** | Vue 3 / JS | SFC intellisense in hybrid mode (vtsls also powers plain JS). | LSP keys (§3) | 🔵 |
-| **vuki656/package-info.nvim** | JS | Shows latest/outdated dependency versions inline in `package.json`. | `<leader>ns` show · `<leader>nu` update · `<leader>ni` install · `<leader>nc` change version | 🟡 |
-| **vim-dadbod** + **dadbod-ui** + **dadbod-completion** | SQL/MySQL | In-editor SQL client — browse tables, run queries. Add connections via an env var (never commit secrets). | `<leader>Du` toggle DB UI | 🔵 |
-| **mrcjkb/rustaceanvim** + **crates.nvim** | Rust | Best-in-class Rust LSP/DAP wrapper + `Cargo.toml` version help. | rust-analyzer code actions; crates inline | 🔵 |
-| **clangd + clangd_extensions** | C/C++ | LSP + inlay hints, switch source/header. | `<leader>ch`? via clangd; LSP keys | 🔵 |
-| **MeanderingProgrammer/render-markdown.nvim** | Markdown | Renders headings/tables/code blocks *in-buffer* (WSL-friendly; no browser needed). | automatic in `.md` | 🔵/🟡 |
-| **marksman** | Markdown | LSP for links, references, workspace symbols. | LSP keys | 🔵 |
-
----
-
-## 14. Workflow & sessions
-
-| Plugin | What it does | Keys / usage | Source |
-|---|---|---|---|
-| **folke/persistence.nvim** | Per-directory session save/restore. | `<leader>qs` restore · `<leader>ql` restore last · `<leader>qd` don't save | ⚪ |
-| **mrjones2014/legendary.nvim** | Searchable command/keymap palette (Zed's Cmd-P-for-commands feel). | `<leader>fp` | 🟡 |
-| **MagicDuck/grug-far.nvim** | Project-wide find & replace UI (Zed's multi-file replace). | `<leader>sr` (n + visual) | 🟡 |
-| **ahmedkhalf/project.nvim** | Auto-detects project roots + a Telescope picker for them. | `<leader>fP` projects | 🟡 |
-
----
-
-## 15. Fun & polish
-
-| Plugin | What it does | Keys / usage | Source |
-|---|---|---|---|
-| **folke/zen-mode.nvim** + **twilight.nvim** | Distraction-free mode; twilight dims inactive code. | `<leader>uz` zen · `<leader>uZ` twilight | 🟡 |
-| **echasnovski/mini.animate** | Subtle cursor/resize animations (scroll animation intentionally off — laggy over WSL). | automatic | 🟡 |
-| **andweeb/presence.nvim** | Discord Rich Presence. *WSL caveat: won't reach Discord's IPC socket without a bridge; harmless if it can't.* | automatic | 🟡 |
-| **wakatime/vim-wakatime** | Coding-time tracking. First launch prompts for your API key → `~/.wakatime.cfg`. | `:WakaTimeApiKey` | 🟡 |
-
----
-
-## Quick "getting started" path
-1. Open `nvim` → FOR DORN dashboard. Press `f` to find a file, or `<leader>e` for the tree.
-2. Learn these five first: `<leader>ff` (files), `<leader>/` (grep), `s` (flash jump), `<leader>Ha`/`<leader>1` (harpoon), `<leader>gg` (lazygit).
-3. When unsure of a key: press `<leader>` and read the which-key popup.
-4. Browse themes with `<leader>th`; everything is yours to edit under `lua/plugins/`.
-
-*Keybinding overview: see the repo's root `README.md`.*
+1. Open `nvim` and press `f` on the start screen to find a file.
+2. Learn these first: `<leader><space>` files, `<leader>/` grep, `s` jump, `<leader>Ha`
+   and `<leader>1` for harpoon, and `<leader>gg` for lazygit.
+3. If you forget something, press `<leader>` and wait.
