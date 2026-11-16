@@ -166,12 +166,14 @@ dockerls, docker-compose, yamlls, marksman, clangd, rust-analyzer, lua_ls.
 > [Nerd Font](https://www.nerdfonts.com/). The bootstrap script installs all of these.
 
 ```sh
-git clone https://github.com/ejdhindsa/dotfiles.git ~/dotfiles
-~/dotfiles/nvim/bootstrap.sh
+mv ~/.config/nvim ~/.config/nvim.bak 2>/dev/null   # back up any existing config
+git clone https://github.com/ejdhindsa/neovim-config.git ~/.config/nvim
+~/.config/nvim/bootstrap.sh
 ```
 
-The script is idempotent. It backs up any existing `~/.config/nvim` before
-linking this one in. Optional flags:
+The script is idempotent, so it's safe to run again. If you clone somewhere
+else, it backs up any existing `~/.config/nvim` and links the clone there.
+Optional flags:
 
 | Flag | Effect |
 |---|---|
@@ -182,14 +184,11 @@ linking this one in. Optional flags:
 | `--no-bootstrap` | Skip the headless plugin install |
 
 <details>
-<summary><b>Manual install</b></summary>
+<summary><b>Without the bootstrap script</b></summary>
 
-```sh
-# back up any existing config first
-mv ~/.config/nvim ~/.config/nvim.bak 2>/dev/null
-ln -s ~/dotfiles/nvim ~/.config/nvim
-nvim   # lazy.nvim installs the plugins, Mason installs the language servers
-```
+If you already have the dependencies, clone the repo into `~/.config/nvim` (as
+above) and run `nvim`. lazy.nvim installs the plugins and Mason installs the
+language servers.
 
 On Ubuntu, `fd` is installed as `fdfind`, so add a shim:
 `ln -sf "$(command -v fdfind)" ~/.local/bin/fd`.
@@ -243,7 +242,6 @@ keybinds {
 ## Layout
 
 ```
-nvim/
 ├── init.lua
 ├── bootstrap.sh          one-shot installer
 ├── neovim-setup.md       detailed guide to every plugin
@@ -261,7 +259,7 @@ nvim/
 telescope, mini-surround, yanky, copilot, test.core, prettier, and the vue, json,
 docker, markdown, rust, clangd and sql language extras.
 
-For a plugin-by-plugin guide, see [`nvim/neovim-setup.md`](nvim/neovim-setup.md).
+For a plugin-by-plugin guide, see [`neovim-setup.md`](neovim-setup.md).
 
 ### Design choices
 - **blink.cmp** instead of nvim-cmp, because it's faster (LazyVim's default).
@@ -280,4 +278,4 @@ For a plugin-by-plugin guide, see [`nvim/neovim-setup.md`](nvim/neovim-setup.md)
 
 - [LazyVim](https://github.com/LazyVim/LazyVim) by folke, the foundation for all of this.
 - The BlackFox theme by Matej Cerny, ported here from Zed.
-- Every plugin author listed in [`neovim-setup.md`](nvim/neovim-setup.md).
+- Every plugin author listed in [`neovim-setup.md`](neovim-setup.md).

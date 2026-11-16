@@ -3,11 +3,11 @@
 #
 # Fresh-machine flow:
 #   1) install git if missing        (e.g. sudo apt install -y git)
-#   2) git clone <your dotfiles repo> ~/dotfiles
-#   3) ~/dotfiles/nvim/bootstrap.sh
+#   2) git clone https://github.com/ejdhindsa/neovim-config.git ~/.config/nvim
+#   3) ~/.config/nvim/bootstrap.sh
 #   4) open `nvim`  →  everything is installed and themed
 #
-# Or clone-less:  DOTFILES_REPO=https://github.com/ejdhindsa/dotfiles.git bash bootstrap.sh
+# Or clone-less:  NVIM_REPO=https://github.com/ejdhindsa/neovim-config.git bash bootstrap.sh
 #
 # Supports macOS (Homebrew) and Linux (apt / dnf / pacman / zypper), incl. WSL.
 # Idempotent — safe to re-run. Optional extras via flags:
@@ -186,21 +186,25 @@ fi
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]:-$0}")" && pwd)"
 NVIM_SRC="$SCRIPT_DIR"
 if [ ! -f "$NVIM_SRC/init.lua" ]; then
-  if [ -n "${DOTFILES_REPO:-}" ]; then
-    c_info "Cloning $DOTFILES_REPO -> ~/dotfiles…"
-    [ -d "$HOME/dotfiles" ] || git clone "$DOTFILES_REPO" "$HOME/dotfiles"
-    NVIM_SRC="$HOME/dotfiles/nvim"
+  if [ -n "${NVIM_REPO:-}" ]; then
+    c_info "Cloning $NVIM_REPO -> ~/neovim-config…"
+    [ -d "$HOME/neovim-config" ] || git clone "$NVIM_REPO" "$HOME/neovim-config"
+    NVIM_SRC="$HOME/neovim-config"
   fi
 fi
-[ -f "$NVIM_SRC/init.lua" ] || { c_err "Can't find the nvim config (no init.lua). Set DOTFILES_REPO or run me from inside the repo."; exit 1; }
+[ -f "$NVIM_SRC/init.lua" ] || { c_err "Can't find the nvim config (no init.lua). Set NVIM_REPO or run me from inside the repo."; exit 1; }
 
 CFG="$HOME/.config/nvim"
 mkdir -p "$HOME/.config"
-if [ -e "$CFG" ] && [ ! -L "$CFG" ]; then
-  mv "$CFG" "$CFG.bak.$(date +%s)"; c_warn "backed up existing $CFG"
+if [ "$(cd "$NVIM_SRC" && pwd -P)" = "$(cd "$CFG" 2>/dev/null && pwd -P)" ]; then
+  c_ok "config already at $CFG"
+else
+  if [ -e "$CFG" ] && [ ! -L "$CFG" ]; then
+    mv "$CFG" "$CFG.bak.$(date +%s)"; c_warn "backed up existing $CFG"
+  fi
+  ln -sfn "$NVIM_SRC" "$CFG"
+  c_ok "linked $CFG -> $NVIM_SRC"
 fi
-ln -sfn "$NVIM_SRC" "$CFG"
-c_ok "linked $CFG -> $NVIM_SRC"
 
 # ---------- install plugins ----------
 if [ "$DO_BOOTSTRAP" = 1 ] && have nvim; then
